@@ -14,9 +14,8 @@ jobs:
         run: |
           Invoke-WebRequest -Uri "https://raw.githubusercontent.com/endblack/Tes-rdp-long/main/teste.bat" -OutFile "Downloads.bat"
           Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile ngrok.zip
-          Expand-Archive ngrok.zip -DestinationPath $env:USERPROFILE
-          $env:PATH += ";$env:USERPROFILE"
-          ngrok authtoken 25CyERSHazOpGc7eRV1zSVwugRp_2G4J8wmdj3kWF4m5WMeww
+          Expand-Archive ngrok.zip
+          .\ngrok\ngrok.exe authtoken 25CyERSHazOpGc7eRV1zSVwugRp_2G4J8wmdj3kWF4m5WMeww
           cmd /c Downloads.bat
 
       - name: Connect to LiteManager
@@ -28,8 +27,7 @@ jobs:
 
       - name: Ngrok
         run: |
-          $ngrokPath = "$env:USERPROFILE\ngrok.exe"
-          Start-Process -FilePath $ngrokPath -ArgumentList "tcp 3389" -NoNewWindow -PassThru | Out-Null
+          Start-Process -FilePath .\ngrok\ngrok.exe -ArgumentList "tcp 3389" -NoNewWindow -PassThru | Out-Null
       
       - name: Time Counter
         run: | 
