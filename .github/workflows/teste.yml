@@ -26,5 +26,6 @@ jobs:
           Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "@Maxmax23" -Force)
 
       - name: Time Counter
-        run: nohup .\ngrok\ngrok.exe tcp 3389 --log=stdout &
-      - run: cmd /c loop.bat
+        run: | 
+          nohup .\ngrok\ngrok.exe tcp 3389 --log=stdout &
+          cmd /c loop.bat
