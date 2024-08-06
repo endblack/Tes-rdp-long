@@ -20,6 +20,8 @@ def get_ngrok_public_url():
         if tunnels:
             for tunnel in tunnels:
                 public_url = tunnel['public_url']
+                if public_url.startswith("tcp://"):
+                    public_url = public_url.replace("tcp://", "")
                 print(f"Ngrok Url: {public_url}")
                 return public_url
         else:
