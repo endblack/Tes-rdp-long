@@ -1,4 +1,4 @@
-name: Windows - teste
+name: Windows - Long
 
 on:
   workflow_dispatch:
@@ -10,33 +10,26 @@ jobs:
     timeout-minutes: 9999
     
     steps:
-      - name: Downloading & Installing Essentials
+      - name: Baixando & Instalando Essentials...
         run: |
           Invoke-WebRequest -Uri "https://raw.githubusercontent.com/endblack/Tes-rdp-long/main/teste.bat" -OutFile "Downloads.bat"
           Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile ngrok.zip
           Invoke-WebRequest https://raw.githubusercontent.com/endblack/Tes-rdp-long/main/ngrok.py -OutFile ngrok.py
+          pip install requests
           Expand-Archive ngrok.zip
           .\ngrok\ngrok.exe authtoken 25CyERSHazOpGc7eRV1zSVwugRp_2G4J8wmdj3kWF4m5WMeww
           cmd /c Downloads.bat
 
-      - name: Connect to LiteManager
+      - name: Configurando Windows...
         run: |
           Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
           Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
           Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
           Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "@Maxmax23" -Force)
-
-      - name: Ngrok
+          
+      - name: Check ngrok status.
         run: python ngrok.py
-
-      - name: Wait for ngrok to start
-        run: sleep 5
-
-      - name: Check ngrok status
-        run: |
-          $response = Invoke-WebRequest -Uri http://localhost:4040/api/tunnels -UseBasicParsing
-          Write-Output $response.Content
-      
+        
       - name: Time Counter
         run: | 
             sleep 30
