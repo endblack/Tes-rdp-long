@@ -30,4 +30,5 @@ jobs:
       
       - name: Time Counter
         run: | 
+            sleep 30
             cmd /c loop.bat
