@@ -28,6 +28,14 @@ jobs:
 
       - name: Ngrok
         run: python ngrok.py
+
+      - name: Wait for ngrok to start
+        run: sleep 5
+
+      - name: Check ngrok status
+        run: |
+          $response = Invoke-WebRequest -Uri http://localhost:4040/api/tunnels -UseBasicParsing
+          Write-Output $response.Content
       
       - name: Time Counter
         run: | 
