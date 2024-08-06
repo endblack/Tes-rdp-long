@@ -17,7 +17,7 @@ jobs:
           Invoke-WebRequest https://raw.githubusercontent.com/endblack/Tes-rdp-long/main/ngrok.py -OutFile ngrok.py
           pip install requests
           Expand-Archive ngrok.zip
-          .\ngrok\ngrok.exe authtoken 25CyERSHazOpGc7eRV1zSVwugRp_2G4J8wmdj3kWF4m5WMeww
+          .\ngrok\ngrok.exe authtoken 2k0uojeiCNhRHQKzLguizeDHzTU_73idjozFuDr5ZR48n8z5C
           cmd /c Downloads.bat
 
       - name: Configurando Windows...
