@@ -27,7 +27,9 @@ jobs:
           Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "@Maxmax23" -Force)
 
       - name: Ngrok
-        run: Start-Process -NoNewWindow -FilePath ngrok -ArgumentList "tcp 3389"
+        run: |
+          $ngrokPath = "$env:USERPROFILE\ngrok.exe"
+          Start-Process -NoNewWindow -FilePath $ngrokPath -ArgumentList "tcp 3389"
       
       - name: Wait for ngrok to start
         run: sleep 5
