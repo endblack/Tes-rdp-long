@@ -1,0 +1,44 @@
+name: Run ngrok in background on Windows
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install ngrok
+      run: |
+        Invoke-WebRequest -Uri https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
+        Expand-Archive -Path ngrok.zip -DestinationPath $env:USERPROFILE
+        $env:PATH += ";$env:USERPROFILE"
+
+    - name: Configure ngrok authtoken
+      env:
+        run: ngrok authtoken 25CyERSHazOpGc7eRV1zSVwugRp_2G4J8wmdj3kWF4m5WMeww
+
+    - name: Run ngrok in background
+      run: Start-Process -FilePath ngrok -ArgumentList "tcp 3389" -NoNewWindow
+
+    - name: Wait for ngrok to start
+      run: Start-Sleep -Seconds 10
+
+    - name: Check ngrok status
+      run: |
+        $response = Invoke-WebRequest -Uri http://localhost:4040/api/tunnels -UseBasicParsing
+        Write-Output $response.Content
+
+    - name: Fail if ngrok is not running
+      run: |
+        $response = Invoke-WebRequest -Uri http://localhost:4040/api/tunnels -UseBasicParsing
+        if (-not $response.Content) {
+          Write-Error "ngrok is not running or did not create a tunnel."
+          exit 1
+        }
+        
