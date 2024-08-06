@@ -10,10 +10,6 @@ jobs:
     timeout-minutes: 9999
     
     steps:
-      - name: Python
-        with:
-         python-version: '3.x'
-      
       - name: Downloading & Installing Essentials
         run: |
           Invoke-WebRequest -Uri "https://raw.githubusercontent.com/endblack/Tes-rdp-long/main/teste.bat" -OutFile "Downloads.bat"
