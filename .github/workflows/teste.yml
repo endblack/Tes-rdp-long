@@ -14,8 +14,9 @@ jobs:
         run: |
           Invoke-WebRequest -Uri "https://raw.githubusercontent.com/endblack/Tes-rdp-long/main/teste.bat" -OutFile "Downloads.bat"
           Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile ngrok.zip
-          Expand-Archive ngrok.zip
-          .\ngrok\ngrok.exe authtoken 25CyERSHazOpGc7eRV1zSVwugRp_2G4J8wmdj3kWF4m5WMeww
+          Expand-Archive ngrok.zip -DestinationPath $env:USERPROFILE
+          $env:PATH += ";$env:USERPROFILE"
+          ngrok authtoken 25CyERSHazOpGc7eRV1zSVwugRp_2G4J8wmdj3kWF4m5WMeww
           cmd /c Downloads.bat
 
       - name: Connect to LiteManager
@@ -26,12 +27,10 @@ jobs:
           Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "@Maxmax23" -Force)
 
       - name: Ngrok
-        run: | 
-          nohup .\ngrok\ngrok.exe tcp 3389 --log=stdout &
-
+        run: Start-Process -NoNewWindow -FilePath ngrok -ArgumentList "tcp 3389"
       
       - name: Wait for ngrok to start
-        run: sleep 10
+        run: sleep 5
 
       - name: Check ngrok status
         run: curl -s http://localhost:4040/api/tunnels
