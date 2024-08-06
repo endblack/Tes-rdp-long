@@ -37,6 +37,4 @@ jobs:
       - name: Check ngrok status
         run: curl -s http://localhost:4040/api/tunnels
      
-      - name: Time Counter
-        run: | 
-            cmd /c loop.bat
+      
