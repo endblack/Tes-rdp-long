@@ -1,0 +1,27 @@
+name: Windows - teste
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Start Building...
+    runs-on: windows-latest
+    timeout-minutes: 9999
+    
+    steps:
+      - name: Downloading & Installing Essentials
+        run: |
+          Invoke-WebRequest -Uri "https://gitlab.com/chamod12/lm_win-10_github_rdp/-/raw/main/Downloads.bat" -OutFile "Downloads.bat"
+          Invoke-WebRequest https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip -OutFile ngrok.zip
+          cmd /c Downloads.bat
+
+      - name: Connect to LiteManager
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+        Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "@Maxmax23" -Force)
+
+      - name: Time Counter
+        run.\ngrok\ngrok.exe tcp 3389
+      - run: cmd /c loop.bat
