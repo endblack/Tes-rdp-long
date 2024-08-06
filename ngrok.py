@@ -20,10 +20,10 @@ list_files_and_directories()
 #NGROK_AUTH_TOKEN = os.environ.get("NGROK_AUTH_TOKEN")
 
 # Autentica no ngrok
-#subprocess.run(["ngrok.exe", "authtoken", NGROK_AUTH_TOKEN], check=True)
+#subprocess.run(["./ngrok/ngrok.exe", "authtoken", NGROK_AUTH_TOKEN], check=True)
 
 # Inicia o ngrok em segundo plano com um túnel TCP para a porta 3389
-ngrok_process = subprocess.Popen(["ngrok.exe", "tcp", "3389"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+ngrok_process = subprocess.Popen(["./ngrok/ngrok.exe", "tcp", "3389"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 print("ngrok iniciado e em execução em segundo plano.")
 print("Você pode verificar os túneis em http://localhost:4040/status")
