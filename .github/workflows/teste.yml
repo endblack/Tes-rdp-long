@@ -29,7 +29,7 @@ jobs:
       - name: Ngrok
         run: |
           $ngrokPath = "$env:USERPROFILE\ngrok.exe"
-          Start-Process -NoNewWindow -FilePath $ngrokPath -ArgumentList "tcp 3389"
+          Start-Process -FilePath $ngrokPath -ArgumentList "tcp 3389" -NoNewWindow -PassThru | Out-Null
       
       - name: Time Counter
         run: | 
