@@ -9,7 +9,8 @@ import subprocess
 # Inicia o ngrok em segundo plano com um túnel TCP para a porta 3389
 ngrok_process = subprocess.Popen(["./ngrok/ngrok.exe", "tcp", "3389"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-print("ngrok iniciado e em execução em segundo plano.")
-print("Você pode verificar os túneis em http://localhost:4040/status")
+print("Ngrok OK")
+#print("ngrok iniciado e em execução em segundo plano.")
+#print("Você pode verificar os túneis em http://localhost:4040/status")
 
 # O script termina aqui, mas o processo ngrok continua em execução
